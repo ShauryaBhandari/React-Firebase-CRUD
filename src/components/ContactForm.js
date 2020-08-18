@@ -22,7 +22,7 @@ const ContactForm = ({ addEdit }) => {
         <div className="form-group input-group">
           <div className="input-group-prepend">
             <div className="input-group-text">
-              <i class="fa fa-user" aria-hidden="true"></i>
+              <i className="fa fa-user" aria-hidden="true"></i>
             </div>
           </div>
           <input
@@ -40,7 +40,7 @@ const ContactForm = ({ addEdit }) => {
           <div className="form-group input-group col-md-6">
             <div className="input-group-prepend">
               <div className="input-group-text">
-                <i class="fa fa-phone" aria-hidden="true"></i>
+                <i className="fa fa-phone" aria-hidden="true"></i>
               </div>
             </div>
             <input
@@ -57,7 +57,7 @@ const ContactForm = ({ addEdit }) => {
           <div className="form-group input-group col-md-6">
             <div className="input-group-prepend">
               <div className="input-group-text">
-                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <i className="fa fa-envelope" aria-hidden="true"></i>
               </div>
             </div>
             <input
@@ -75,7 +75,7 @@ const ContactForm = ({ addEdit }) => {
         <div className="form-group input-group">
           <div className="input-group-prepend">
             <div className="input-group-text">
-              <i class="fa fa-location-arrow" aria-hidden="true"></i>
+              <i className="fa fa-location-arrow" aria-hidden="true"></i>
             </div>
           </div>
           <textarea
