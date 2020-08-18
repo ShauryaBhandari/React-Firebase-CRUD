@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const ContactForm = () => {
+const ContactForm = ({ addEdit }) => {
   const initValues = {
     name: "",
     mobile: "",
@@ -16,6 +16,7 @@ const ContactForm = () => {
         className="form"
         onSubmit={(e) => {
           e.preventDefault();
+          addEdit(values);
         }}
       >
         <div className="form-group input-group">
