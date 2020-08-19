@@ -1,14 +1,29 @@
 import React, { useState, useEffect } from "react";
 
-const ContactForm = ({ addEdit }) => {
+const ContactForm = ({ addEdit, currentId, details }) => {
   const initValues = {
     name: "",
     mobile: "",
     email: "",
     address: "",
   };
-
   const [values, setValues] = useState(initValues);
+
+  useEffect(() => {
+    let didCancel = false;
+    if (currentId === "") {
+      setValues({ ...initValues });
+    } else {
+      setValues({
+        ...details[currentId],
+      });
+    }
+    return () => {
+      didCancel = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentId, details]);
+
   return (
     <div>
       <form
@@ -92,7 +107,7 @@ const ContactForm = ({ addEdit }) => {
         <div className="text-center">
           <input
             type="submit"
-            value="Save"
+            value={currentId === "" ? "Save" : "Update"}
             className="btn btn-outline-dark btn-block"
           />
         </div>

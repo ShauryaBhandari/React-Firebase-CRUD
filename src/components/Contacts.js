@@ -5,24 +5,48 @@ import fireDb from "../firebase";
 
 const Contacts = () => {
   const [details, setDetails] = useState([]);
+  const [currentId, setCurrentId] = useState("");
 
   useEffect(() => {
     fireDb.child("contacts").on("value", (snapshot) => {
       if (snapshot.val() != null) {
         setDetails({ ...snapshot.val() });
+      } else {
+        setDetails({});
       }
     }); //on change in the contacts object, callback function will be invoked. This is similar to the component did mount lifecycle hook in class based components
-
-    return () => {};
-  }, []);
+  }, [currentId]);
 
   const addEdit = (obj) => {
-    fireDb.child("contacts").push(obj, (err) => {
-      if (err) {
-        console.log(err);
-      }
-    });
+    if (currentId === "") {
+      fireDb.child("contacts").push(obj, (err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+    } else {
+      fireDb.child(`contacts/${currentId}`).set(obj, (err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          setCurrentId("");
+        }
+      });
+    }
   };
+
+  const onDel = (key) => {
+    if (window.confirm("Are you sure you want to delete this record?")) {
+      fireDb.child(`contacts/${key}`).remove((err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          setCurrentId("");
+        }
+      });
+    }
+  };
+
   return (
     <Fragment>
       <div className="jumbotron jumbotron-fluid">
@@ -32,7 +56,11 @@ const Contacts = () => {
       </div>
       <div className="row">
         <div className="col-md-5">
-          <ContactForm addEdit={addEdit} />
+          <ContactForm
+            addEdit={addEdit}
+            currentId={currentId}
+            details={details}
+          />
         </div>
         <div className="col-md-7">
           <table className="table table-borderless table-striped">
@@ -54,6 +82,24 @@ const Contacts = () => {
                     <td>{details[id].mobile}</td>
                     <td>{details[id].email}</td>
                     <td>{details[id].address}</td>
+                    <td>
+                      <a
+                        className="btn text-primary"
+                        onClick={() => {
+                          setCurrentId(id);
+                        }}
+                      >
+                        <i className="fa fa-pencil" aria-hidden="true"></i>
+                      </a>
+                      <a
+                        className="btn text-danger"
+                        onClick={() => {
+                          onDel(id);
+                        }}
+                      >
+                        <i className="fa fa-trash" aria-hidden="true"></i>
+                      </a>
+                    </td>
                   </tr>
                 );
               })}
